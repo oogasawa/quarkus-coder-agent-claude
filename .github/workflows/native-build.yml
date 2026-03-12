@@ -22,9 +22,6 @@ jobs:
           - os: macos-14
             label: macos-aarch64
             suffix: ''
-          - os: macos-13
-            label: macos-x86_64
-            suffix: ''
           - os: windows-latest
             label: windows-x86_64
             suffix: '.exe'
