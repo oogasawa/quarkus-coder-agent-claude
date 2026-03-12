@@ -4,6 +4,17 @@ A lightweight Web UI for Claude Code CLI. Chat with Claude models from your brow
 
 **Queue prompts while the AI is still thinking.** Don't wait — type your next prompts and add them to the queue. Once the current response finishes, queued prompts are sent automatically in order.
 
+## Features
+
+- **Claude models** — sonnet, opus, haiku via Claude Code CLI
+- **Prompt queue** — queue up prompts while the AI is responding; auto-send, reorder, remove
+- **Tool execution** — Bash, Read, Write, Edit, Glob, Grep, WebSearch, WebFetch (via Claude CLI)
+- **Interactive prompts** — tool permission dialogs forwarded to the Web UI
+- **Session persistence** — session ID saved to file; survives server restart
+- Real-time streaming responses (SSE) with Markdown rendering
+- Save conversation history as Markdown file
+- 10 color themes (5 dark + 5 light)
+
 ## Authentication
 
 Authentication is resolved in this order:
@@ -122,17 +133,6 @@ mvn install -Dnative -DskipTests
 ```
 
 ---
-
-## Features
-
-- **Claude models** — sonnet, opus, haiku via Claude Code CLI
-- **Prompt queue** — queue up prompts while the AI is responding; auto-send, reorder, remove
-- **Tool execution** — Bash, Read, Write, Edit, Glob, Grep, WebSearch, WebFetch (via Claude CLI)
-- **Interactive prompts** — tool permission dialogs forwarded to the Web UI
-- **Session persistence** — session ID saved to file; survives server restart
-- Real-time streaming responses (SSE) with Markdown rendering
-- Save conversation history as Markdown file
-- 10 color themes (5 dark + 5 light)
 
 ## REST API
 
