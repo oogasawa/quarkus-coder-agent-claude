@@ -12,18 +12,22 @@ Authentication is resolved in this order:
 2. **Environment variable / config property** — set `ANTHROPIC_API_KEY` or pass `-Dcoder-agent.api-key=sk-ant-...`
 3. **Web UI prompt** — if none of the above, the browser shows an API key input dialog at startup
 
+## Installation
+
+There are two ways to install: using a pre-built native image binary, or building a JAR from source. The native image requires no Java runtime and starts instantly. The JAR requires Java 21+ but runs on any platform.
+
 ---
 
-## Option 1: Native Image
+### Native Image
 
-### Prerequisites
+#### Prerequisites
 
 - No Java required. The binary is self-contained.
 - One of the authentication methods above.
 
-### Install
+#### Install
 
-[Releases](https://github.com/oogasawa/quarkus-coder-agent-claude/releases) から自分のプラットフォーム用のバイナリをダウンロード:
+Download the binary for your platform from the [Releases](https://github.com/oogasawa/quarkus-coder-agent-claude/releases) page:
 
 | File | Platform |
 |------|----------|
@@ -37,7 +41,7 @@ Authentication is resolved in this order:
 chmod +x quarkus-coder-agent-claude-*
 ```
 
-### Run
+#### Run
 
 ```bash
 ./quarkus-coder-agent-claude-v1.0.0-linux-x86_64
@@ -59,15 +63,15 @@ ANTHROPIC_API_KEY=sk-ant-... ./quarkus-coder-agent-claude-v1.0.0-linux-x86_64
 
 ---
 
-## Option 2: JAR (JVM mode)
+### JAR (JVM mode)
 
-### Prerequisites
+#### Prerequisites
 
 - Java 21+
 - Maven 3.9+
 - One of the authentication methods above.
 
-### Build
+#### Build
 
 ```bash
 git clone https://github.com/oogasawa/quarkus-coder-agent-claude.git
@@ -76,7 +80,7 @@ rm -rf target
 mvn install
 ```
 
-### Run
+#### Run
 
 ```bash
 java -jar target/quarkus-app/quarkus-run.jar
