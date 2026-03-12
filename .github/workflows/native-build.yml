@@ -16,15 +16,23 @@ jobs:
           - os: ubuntu-latest
             label: linux-x86_64
             suffix: ''
+            arch: ''
           - os: ubuntu-24.04-arm
             label: linux-aarch64
             suffix: ''
+            arch: ''
           - os: macos-14
             label: macos-aarch64
             suffix: ''
+            arch: ''
+          - os: macos-latest
+            label: macos-x86_64
+            suffix: ''
+            arch: 'x64'
           - os: windows-latest
             label: windows-x86_64
             suffix: '.exe'
+            arch: ''
 
     runs-on: ${{ matrix.os }}
     name: Build ${{ matrix.label }}
@@ -36,6 +44,7 @@ jobs:
         with:
           java-version: '21'
           distribution: 'graalvm-community'
+          architecture: ${{ matrix.arch || '' }}
 
       - name: Build native image
         run: |
