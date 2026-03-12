@@ -4,30 +4,70 @@ A lightweight Web UI for Claude Code CLI. Chat with Claude models from your brow
 
 **Queue prompts while the AI is still thinking.** Don't wait — type your next prompts and add them to the queue. Once the current response finishes, queued prompts are sent automatically in order.
 
-## Prerequisites
+## Authentication
 
-- Java 21+ (for JVM mode)
-- Maven 3.9+ (for building)
-- **One of the following for authentication:**
-  1. [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) installed and logged in (recommended)
-  2. `ANTHROPIC_API_KEY` environment variable
-  3. Enter your API key via the Web UI at startup
-- (Optional) [GraalVM](https://www.graalvm.org/) for native image build
-- (Optional) [JBang](https://www.jbang.dev/) for the launcher script
+Authentication is resolved in this order:
 
-## Quick Start (Native Image)
+1. **Claude Code CLI** — if `claude` is on your PATH, it is used directly (recommended; supports tool execution, session management)
+2. **Environment variable / config property** — set `ANTHROPIC_API_KEY` or pass `-Dcoder-agent.api-key=sk-ant-...`
+3. **Web UI prompt** — if none of the above, the browser shows an API key input dialog at startup
 
-Download the pre-built native binary for your platform, then:
+---
+
+## Option 1: Native Image
+
+### Prerequisites
+
+- No Java required. The binary is self-contained.
+- One of the authentication methods above.
+
+### Install
+
+[Releases](https://github.com/oogasawa/quarkus-coder-agent-claude/releases) から自分のプラットフォーム用のバイナリをダウンロード:
+
+| File | Platform |
+|------|----------|
+| `quarkus-coder-agent-claude-vX.Y.Z-linux-x86_64` | Linux (x86_64) |
+| `quarkus-coder-agent-claude-vX.Y.Z-linux-aarch64` | Linux (aarch64 / DGX Spark) |
+| `quarkus-coder-agent-claude-vX.Y.Z-macos-aarch64` | macOS (Apple Silicon) |
+| `quarkus-coder-agent-claude-vX.Y.Z-macos-x86_64` | macOS (Intel) |
+| `quarkus-coder-agent-claude-vX.Y.Z-windows-x86_64.exe` | Windows |
 
 ```bash
-./quarkus-coder-agent-claude-1.0.0-runner
+chmod +x quarkus-coder-agent-claude-*
 ```
 
-Open `http://localhost:8090` in your browser. If Claude CLI is not found, you'll be prompted to enter your Anthropic API key.
+### Run
 
-## Build
+```bash
+./quarkus-coder-agent-claude-v1.0.0-linux-x86_64
+```
 
-### JVM mode
+Open `http://localhost:8090` in your browser.
+
+Change the HTTP port:
+
+```bash
+./quarkus-coder-agent-claude-v1.0.0-linux-x86_64 -Dquarkus.http.port=9090
+```
+
+Provide API key:
+
+```bash
+ANTHROPIC_API_KEY=sk-ant-... ./quarkus-coder-agent-claude-v1.0.0-linux-x86_64
+```
+
+---
+
+## Option 2: JAR (JVM mode)
+
+### Prerequisites
+
+- Java 21+
+- Maven 3.9+
+- One of the authentication methods above.
+
+### Build
 
 ```bash
 git clone https://github.com/oogasawa/quarkus-coder-agent-claude.git
@@ -36,32 +76,13 @@ rm -rf target
 mvn install
 ```
 
-### Native image
-
-```bash
-rm -rf target
-mvn install -Dnative -DskipTests
-```
-
-The native binary is generated at `target/quarkus-coder-agent-claude-1.0.0-runner` (~52MB).
-
-## Run
-
-### JVM mode
+### Run
 
 ```bash
 java -jar target/quarkus-app/quarkus-run.jar
 ```
 
-### Native image
-
-```bash
-./target/quarkus-coder-agent-claude-1.0.0-runner
-```
-
 Open `http://localhost:8090` in your browser.
-
-### Options
 
 Change the HTTP port:
 
@@ -69,7 +90,7 @@ Change the HTTP port:
 java -Dquarkus.http.port=9090 -jar target/quarkus-app/quarkus-run.jar
 ```
 
-Provide API key via environment variable:
+Provide API key:
 
 ```bash
 ANTHROPIC_API_KEY=sk-ant-... java -jar target/quarkus-app/quarkus-run.jar
@@ -81,21 +102,22 @@ Or via config property:
 java -Dcoder-agent.api-key=sk-ant-... -jar target/quarkus-app/quarkus-run.jar
 ```
 
-### JBang launcher
+#### JBang launcher
 
 ```bash
 jbang coder_agent.java
 jbang coder_agent.java --port=9090
 ```
 
-## Authentication
+#### Build native image from source
 
-Authentication is resolved in this order:
+```bash
+rm -rf target
+mvn install -Dnative -DskipTests
+./target/quarkus-coder-agent-claude-1.0.0-runner
+```
 
-1. **Claude Code CLI** — if `claude` is on your PATH, it is used directly (recommended; supports tool execution, session management)
-2. **Environment variable** — set `ANTHROPIC_API_KEY`
-3. **Config property** — pass `-Dcoder-agent.api-key=sk-ant-...`
-4. **Web UI prompt** — if none of the above, the browser shows an API key input dialog at startup
+---
 
 ## Features
 
