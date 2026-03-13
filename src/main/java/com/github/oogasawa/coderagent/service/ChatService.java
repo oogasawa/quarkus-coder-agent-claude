@@ -60,8 +60,8 @@ public class ChatService {
     public ChatService(
             @ConfigProperty(name = "coder-agent.allowed-tools")
             Optional<String> allowedTools,
-            @ConfigProperty(name = "coder-agent.api-key", defaultValue = "")
-            String configApiKey,
+            @ConfigProperty(name = "coder-agent.api-key")
+            Optional<String> configApiKeyOpt,
             @ConfigProperty(name = "coder-agent.session-file", defaultValue = ".coder-agent-session")
             String sessionFilePath,
             @ConfigProperty(name = "quarkus.http.port", defaultValue = "8090")
@@ -91,9 +91,9 @@ public class ChatService {
                 this.authMode = AuthMode.API_KEY;
                 this.apiKey = envKey;
                 logger.info("Authentication: ANTHROPIC_API_KEY environment variable");
-            } else if (!configApiKey.isBlank()) {
+            } else if (configApiKeyOpt.isPresent() && !configApiKeyOpt.get().isBlank()) {
                 this.authMode = AuthMode.API_KEY;
-                this.apiKey = configApiKey;
+                this.apiKey = configApiKeyOpt.get();
                 logger.info("Authentication: API key from config property");
             } else {
                 this.authMode = AuthMode.NONE;

@@ -19,7 +19,7 @@ A lightweight Web UI for Claude Code CLI. Chat with Claude models from your brow
 
 Authentication is resolved in this order:
 
-1. **Claude Code CLI** — if `claude` is on your PATH, it is used directly (recommended; supports tool execution, session management)
+1. **Claude Code CLI** — if `claude` is on your PATH, it is used directly
 2. **Environment variable / config property** — set `ANTHROPIC_API_KEY` or pass `-Dcoder-agent.api-key=sk-ant-...`
 3. **Web UI prompt** — if none of the above, the browser shows an API key input dialog at startup
 
@@ -125,6 +125,16 @@ jbang coder_agent.java --port=9090
 ```
 
 #### Build native image from source
+
+Requires GraalVM 21+ and the zlib development library:
+
+```bash
+# Ubuntu / Debian
+sudo apt install zlib1g-dev
+
+# Fedora / RHEL
+sudo dnf install zlib-devel
+```
 
 ```bash
 rm -rf target

@@ -37,7 +37,7 @@ class ChatServiceTest {
         Files.writeString(file, "sessionId=abc-123\nmodel=opus\n");
 
         ChatService service = new ChatService(
-                Optional.empty(), "",
+                Optional.empty(), Optional.empty(),
                 tempDir.resolve(".coder-agent-session").toString(), 7777);
 
         assertEquals("opus", service.getModel());
@@ -46,7 +46,7 @@ class ChatServiceTest {
     @Test
     void restoreSession_noFile(@TempDir Path tempDir) {
         ChatService service = new ChatService(
-                Optional.empty(), "",
+                Optional.empty(), Optional.empty(),
                 tempDir.resolve(".coder-agent-session").toString(), 7777);
 
         assertEquals("opus", service.getModel());
@@ -55,7 +55,7 @@ class ChatServiceTest {
     @Test
     void saveSession_writesFile(@TempDir Path tempDir) throws Exception {
         ChatService service = new ChatService(
-                Optional.empty(), "",
+                Optional.empty(), Optional.empty(),
                 tempDir.resolve(".coder-agent-session").toString(), 7777);
 
         service.saveSession("sess-xyz", "haiku");
@@ -73,7 +73,7 @@ class ChatServiceTest {
         Files.writeString(file, "sessionId=abc\nmodel=sonnet\n");
 
         ChatService service = new ChatService(
-                Optional.empty(), "",
+                Optional.empty(), Optional.empty(),
                 tempDir.resolve(".coder-agent-session").toString(), 7777);
 
         service.deleteSessionFile();
@@ -86,7 +86,7 @@ class ChatServiceTest {
         Files.writeString(file, "garbage content\nno equals sign\n");
 
         ChatService service = new ChatService(
-                Optional.empty(), "",
+                Optional.empty(), Optional.empty(),
                 tempDir.resolve(".coder-agent-session").toString(), 7777);
 
         assertEquals("opus", service.getModel());
@@ -95,7 +95,7 @@ class ChatServiceTest {
     @Test
     void cancel_whenNotBusy_doesNotThrow(@TempDir Path tempDir) {
         ChatService service = new ChatService(
-                Optional.empty(), "",
+                Optional.empty(), Optional.empty(),
                 tempDir.resolve(".coder-agent-session").toString(), 9999);
         assertDoesNotThrow(service::cancel);
     }
@@ -103,7 +103,7 @@ class ChatServiceTest {
     @Test
     void getAvailableModels_returnsClaudeModels(@TempDir Path tempDir) {
         ChatService service = new ChatService(
-                Optional.empty(), "",
+                Optional.empty(), Optional.empty(),
                 tempDir.resolve(".coder-agent-session").toString(), 9999);
 
         var models = service.getAvailableModels();
